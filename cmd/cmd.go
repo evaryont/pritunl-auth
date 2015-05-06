@@ -11,7 +11,6 @@ import (
 type Options struct {
 	Debug        bool
 	Port         int
-	Database     string
 	GoogleId     string
 	GoogleSecret string
 }
@@ -26,7 +25,7 @@ func getOpts() (opts *Options) {
 		opts.Debug, _ = strconv.ParseBool(debugStr)
 	}
 
-	opts.Port, err := strconv.Atoi(os.Getenv("PORT"))
+	opts.Port, err = strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
 		logrus.WithFields(logrus.Fields{
 			"error": err,
@@ -34,7 +33,6 @@ func getOpts() (opts *Options) {
 		panic(err)
 	}
 
-	opts.Database = os.Getenv("DB")
 	opts.GoogleId = os.Getenv("GOOGLE_ID")
 	opts.GoogleSecret = os.Getenv("GOOGLE_SECRET")
 
