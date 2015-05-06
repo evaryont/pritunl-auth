@@ -26,18 +26,12 @@ func getOpts() (opts *Options) {
 		opts.Debug, _ = strconv.ParseBool(debugStr)
 	}
 
-	portStr := os.Getenv("PORT")
-	if portStr != "" {
-		p, err := strconv.Atoi(portStr)
-		if err != nil {
-			logrus.WithFields(logrus.Fields{
-				"error": err,
-			}).Error("cmd: Failed to parse port")
-			panic(err)
-		}
-		opts.Port = p
-	} else {
-		opts.Port = rand.Intn(55000) + 10000
+	opts.Port, err := strconv.Atoi(os.Getenv("PORT"))
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"error": err,
+		}).Error("cmd: Failed to parse port")
+		panic(err)
 	}
 
 	opts.Database = os.Getenv("DB")
