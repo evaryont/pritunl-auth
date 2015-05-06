@@ -3,7 +3,6 @@ package cmd
 
 import (
 	"github.com/Sirupsen/logrus"
-	"math/rand"
 	"os"
 	"strconv"
 )
