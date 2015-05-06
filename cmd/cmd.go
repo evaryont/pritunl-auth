@@ -25,13 +25,14 @@ func getOpts() (opts *Options) {
 		opts.Debug, _ = strconv.ParseBool(debugStr)
 	}
 
-	opts.Port, err = strconv.Atoi(os.Getenv("PORT"))
+	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
 		logrus.WithFields(logrus.Fields{
 			"error": err,
 		}).Error("cmd: Failed to parse port")
 		panic(err)
 	}
+	opts.Port = port
 
 	opts.GoogleId = os.Getenv("GOOGLE_ID")
 	opts.GoogleSecret = os.Getenv("GOOGLE_SECRET")
