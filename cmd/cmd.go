@@ -9,6 +9,7 @@ import (
 )
 
 type Options struct {
+	Debug        bool
 	Port         int
 	Database     string
 	GoogleId     string
@@ -18,8 +19,14 @@ type Options struct {
 func getOpts() (opts *Options) {
 	opts = &Options{}
 
-	portStr := os.Getenv("PORT")
+	debugStr := os.Getenv("DEBUG")
+	if debugStr == "" {
+		opts.Debug = true
+	} else {
+		opts.Debug, _ = strconv.ParseBool(debugStr)
+	}
 
+	portStr := os.Getenv("PORT")
 	if portStr != "" {
 		p, err := strconv.Atoi(portStr)
 		if err != nil {
