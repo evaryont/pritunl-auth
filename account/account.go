@@ -1,3 +1,4 @@
+// Oauth account.
 package account
 
 type Account struct {
