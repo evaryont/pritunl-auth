@@ -68,10 +68,10 @@ func (o *Oauth2) Request(db *database.Database, remoteState string,
 }
 
 func (o *Oauth2) Authorize(db *database.Database, state string, code string) (
-	client *Oauth2Client, err error) {
+	acct *account.Account, tokn *Token, err error) {
 
 	coll := db.Tokens()
-	tokn := &Token{}
+	tokn = &Token{}
 
 	err = coll.FindOneId(state, tokn)
 	if err != nil {
@@ -87,18 +87,11 @@ func (o *Oauth2) Authorize(db *database.Database, state string, code string) (
 		return
 	}
 
-	acct := &account.Account{
+	acct = &account.Account{
 		Type:          o.Type,
 		Oauth2AccTokn: accessTokn.AccessToken,
 		Oauth2RefTokn: accessTokn.RefreshToken,
 		Oauth2Exp:     accessTokn.Expiry,
-	}
-
-	client = &Oauth2Client{
-		Account: acct,
-		Token:   *accessTokn,
-		client:  o.conf.Client(oauth2.NoContext, accessTokn),
-		conf:    o,
 	}
 
 	return

@@ -77,17 +77,17 @@ func Request(db *database.Database, remoteState string,
 }
 
 func Authorize(db *database.Database, state string,
-	code string) (acct *account.Account, err error) {
+	code string) (acct *account.Account, tokn *oauth.Token, err error) {
 
 	coll := db.Accounts()
 
-	auth, err := conf.Authorize(db, state, code)
+	acct, tokn, err = conf.Authorize(db, state, code)
 	if err != nil {
 		return
 	}
 
 	client := &GoogleClient{
-		acct: auth.Account,
+		acct: acct,
 	}
 
 	err = client.Init(db)
@@ -95,7 +95,7 @@ func Authorize(db *database.Database, state string,
 		return
 	}
 
-	err = coll.Insert(auth.Account)
+	err = coll.Insert(acct)
 	if err != nil {
 		err = database.ParseError(err)
 		return
