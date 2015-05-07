@@ -37,8 +37,8 @@ func (o *Oauth2) Config() {
 	}
 }
 
-func (o *Oauth2) Request(db *database.Database, remoteState string) (
-	url string, err error) {
+func (o *Oauth2) Request(db *database.Database, remoteState string,
+	remoteCallback string) (url string, err error) {
 
 	coll := db.Tokens()
 	state := utils.RandStr(32)
@@ -53,9 +53,10 @@ func (o *Oauth2) Request(db *database.Database, remoteState string) (
 	}
 
 	tokn := &Token{
-		Id:          state,
-		RemoteState: remoteState,
-		Type:        o.Type,
+		Id:             state,
+		RemoteCallback: remoteCallback,
+		RemoteState:    remoteState,
+		Type:           o.Type,
 	}
 	err = coll.Insert(tokn)
 	if err != nil {
