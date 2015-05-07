@@ -43,6 +43,11 @@ func (d *Database) Accounts() (coll *Collection) {
 	return
 }
 
+func (d *Database) Tokens() (coll *Collection) {
+	coll = d.getCollection("tokens")
+	return
+}
+
 func Connect() (err error) {
 	Session, err = mgo.Dial(MongoUrl)
 	if err != nil {
