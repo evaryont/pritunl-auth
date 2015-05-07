@@ -8,10 +8,11 @@ import (
 )
 
 type Options struct {
-	Debug        bool
-	Port         int
-	GoogleId     string
-	GoogleSecret string
+	Debug          bool
+	Port           int
+	GoogleId       string
+	GoogleSecret   string
+	GoogleCallback string
 }
 
 func getOpts() (opts *Options) {
@@ -35,6 +36,7 @@ func getOpts() (opts *Options) {
 
 	opts.GoogleId = os.Getenv("GOOGLE_ID")
 	opts.GoogleSecret = os.Getenv("GOOGLE_SECRET")
+	opts.GoogleCallback = os.Getenv("GOOGLE_CALLBACK")
 
 	return
 }
