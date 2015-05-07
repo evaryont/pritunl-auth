@@ -1,4 +1,4 @@
-# pritunl-auth: single sign on
+# pritunl-auth: single sign on for pritunl
 
 Copyright (c) 2015 Pritunl
 
