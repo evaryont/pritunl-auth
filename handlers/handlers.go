@@ -46,4 +46,5 @@ func Register(engine *gin.Engine, source string) {
 	dbGroup.Use(Database)
 
 	dbGroup.GET("/check", checkGet)
+	dbGroup.POST("/request", requestPost)
 }
