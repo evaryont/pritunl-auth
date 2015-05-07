@@ -38,7 +38,7 @@ func Recovery(c *gin.Context) {
 }
 
 // Register all endpoint handlers
-func Register(engine *gin.Engine, source string) {
+func Register(engine *gin.Engine) {
 	engine.Use(Limiter)
 	engine.Use(Recovery)
 
