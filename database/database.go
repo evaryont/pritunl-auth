@@ -85,7 +85,7 @@ func addIndexes() (err error) {
 	db := GetDatabase()
 	defer db.Close()
 
-	coll := db.AuthUsers()
+	coll := db.Accounts()
 	err = coll.EnsureIndex(mgo.Index{
 		Key:        []string{"username"},
 		Background: true,
