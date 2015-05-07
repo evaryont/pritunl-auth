@@ -38,8 +38,8 @@ func (d *Database) Users() (coll *Collection) {
 	return
 }
 
-func (d *Database) AuthUsers() (coll *Collection) {
-	coll = d.getCollection("auth_users")
+func (d *Database) Accounts() (coll *Collection) {
+	coll = d.getCollection("accounts")
 	return
 }
 
