@@ -60,7 +60,7 @@ func (g *GoogleClient) Init(db *database.Database) (err error) {
 		return
 	}
 
-	g.acct.Id = data.Emails[1].Value
+	g.acct.Id = data.Emails[0].Value
 
 	return
 }
