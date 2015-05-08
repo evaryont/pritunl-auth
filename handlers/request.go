@@ -1,15 +1,16 @@
 package handlers
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/pritunl/pritunl-auth/database"
 	"github.com/pritunl/pritunl-auth/google"
-	"github.com/gin-gonic/gin"
 )
 
 type requestData struct {
-	License string `json:"license"`
+	License  string `json:"license"`
 	Callback string `json:"callback"`
-	State   string `state:"state"`
+	State    string `state:"state"`
+	Secret   string `state:"secret"`
 }
 
 func requestPost(c *gin.Context) {

@@ -67,9 +67,9 @@ func (g *GoogleClient) Init(db *database.Database) (err error) {
 }
 
 func Request(db *database.Database, remoteState string,
-	remoteCallback string) (url string, err error) {
+	remoteSecret string, remoteCallback string) (url string, err error) {
 
-	url, err = conf.Request(db, remoteState, remoteCallback)
+	url, err = conf.Request(db, remoteState, remoteSecret, remoteCallback)
 	if err != nil {
 		return
 	}

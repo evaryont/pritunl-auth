@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pritunl/pritunl-auth/database"
@@ -38,6 +41,11 @@ func callbackGoogleGet(c *gin.Context) {
 		return
 	}
 
-	c.Redirect(301, fmt.Sprintf("%s?state=%s&user=%s", tokn.RemoteCallback,
-		tokn.RemoteState, acct.Id))
+	hashFunc := hmac.New(sha256.New, []byte(tokn.RemoteSecret))
+	hashFunc.Write([]byte(tokn.RemoteState + acct.Id))
+	rawSignature := hashFunc.Sum(nil)
+	sig := base64.URLEncoding.EncodeToString(rawSignature)
+
+	c.Redirect(301, fmt.Sprintf("%s?state=%s&user=%s&sig=%s",
+		tokn.RemoteCallback, tokn.RemoteState, acct.Id, sig))
 }
