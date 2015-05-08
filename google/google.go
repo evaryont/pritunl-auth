@@ -7,6 +7,7 @@ import (
 	"github.com/pritunl/pritunl-auth/database"
 	"github.com/pritunl/pritunl-auth/errortypes"
 	"github.com/pritunl/pritunl-auth/oauth"
+	"labix.org/v2/mgo/bson"
 )
 
 var (
@@ -95,7 +96,9 @@ func Authorize(db *database.Database, state string,
 		return
 	}
 
-	err = coll.Insert(acct)
+	_, err = coll.Upsert(&bson.M{
+		"_id": acct.Id,
+	}, acct)
 	if err != nil {
 		err = database.ParseError(err)
 		return
