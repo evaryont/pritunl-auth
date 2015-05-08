@@ -21,7 +21,7 @@ func requestPost(c *gin.Context) {
 		return
 	}
 
-	url, err := google.Request(db, data.State, data.Callback)
+	url, err := google.Request(db, data.State, data.Secret, data.Callback)
 	if err != nil {
 		c.Fail(500, err)
 		return
