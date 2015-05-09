@@ -17,6 +17,8 @@ const (
 
 var (
 	Version string
+	Key []byte
+	HashKey []byte
 )
 
 func init() {

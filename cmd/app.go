@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/pritunl/pritunl-auth/constants"
 	"github.com/pritunl/pritunl-auth/google"
 	"github.com/pritunl/pritunl-auth/handlers"
+	"github.com/pritunl/pritunl-auth/utils"
 	"net/http"
 	"os"
 	"strconv"
@@ -15,6 +17,9 @@ func App() {
 	opts := getOpts()
 
 	google.Init(opts.GoogleId, opts.GoogleSecret, opts.GoogleCallback)
+
+	constants.Key = utils.GetKey(os.Getenv("LICENSE_KEY"))
+	constants.HashKey = utils.GetKey(os.Getenv("LICENSE_HASH_KEY"))
 
 	var debug bool
 	debugStr := os.Getenv("DEBUG")
