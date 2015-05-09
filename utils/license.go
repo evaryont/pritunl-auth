@@ -26,7 +26,9 @@ func GetKey(phrase string) (key []byte) {
 	return
 }
 
-func DecrpytLicense(license string) (licenseHashHex string, err error) {
+func DecrpytLicense(license string) (id string, licenseHashHex string,
+	err error) {
+
 	license = strings.Replace(license,
 		"-----------BEGIN LICENSE-----------", "", 1)
 	license = strings.Replace(license,
@@ -83,6 +85,8 @@ func DecrpytLicense(license string) (licenseHashHex string, err error) {
 		}
 		return
 	}
+
+	id = data[2]
 
 	hashFunc := hmac.New(sha256.New, constants.HashKey)
 	hashFunc.Write(licenseKey)
