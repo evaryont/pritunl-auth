@@ -4,6 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pritunl/pritunl-auth/database"
 	"github.com/pritunl/pritunl-auth/google"
+	"github.com/pritunl/pritunl-auth/user"
+	"github.com/pritunl/pritunl-auth/utils"
 )
 
 type requestData struct {
@@ -18,6 +20,33 @@ func requestPost(c *gin.Context) {
 	data := &requestData{}
 
 	if !c.Bind(&data) {
+		return
+	}
+
+	id, licenseHash, err := utils.DecrpytLicense(data.License)
+	if err != nil {
+		c.Fail(500, err)
+		return
+	}
+
+	usr, err := user.FindUser(db, id)
+	if err != nil {
+		switch err.(type) {
+		case *database.NotFoundError:
+			c.Fail(404, err)
+		default:
+			c.Fail(500, err)
+		}
+		return
+	}
+
+	if usr.LicenseHash != licenseHash {
+		c.Fail(401, err)
+		return
+	}
+
+	if usr.Plan[:len(usr.Plan)-1] != "enterprise" {
+		c.Fail(401, err)
 		return
 	}
 
