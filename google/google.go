@@ -34,7 +34,7 @@ type GoogleClient struct {
 	acct *account.Account
 }
 
-func (g *GoogleClient) Init(db *database.Database) (err error) {
+func (g *GoogleClient) Update(db *database.Database) (err error) {
 	client := conf.NewClient(g.acct)
 
 	err = client.Refresh(db)
@@ -91,7 +91,37 @@ func Authorize(db *database.Database, state string,
 		acct: acct,
 	}
 
-	err = client.Init(db)
+	err = client.Update(db)
+	if err != nil {
+		return
+	}
+
+	_, err = coll.Upsert(&bson.M{
+		"_id": acct.Id,
+	}, acct)
+	if err != nil {
+		err = database.ParseError(err)
+		return
+	}
+
+	return
+}
+
+func Update(db *database.Database, user string) (err error) {
+	coll := db.Accounts()
+
+	acct := &account.Account{}
+
+	err = coll.FindOneId(user, acct)
+	if err != nil {
+		return
+	}
+
+	client := &GoogleClient{
+		acct: acct,
+	}
+
+	err = client.Update(db)
 	if err != nil {
 		return
 	}
