@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pritunl/pritunl-auth/database"
 	"github.com/pritunl/pritunl-auth/google"
+	"github.com/pritunl/pritunl-auth/user"
 	"github.com/pritunl/pritunl-auth/utils"
 )
 
@@ -12,9 +13,25 @@ func updateGoogleGet(c *gin.Context) {
 
 	params := utils.ParseParams(c.Request)
 
-	user := params.GetByName("user")
+	usr := params.GetByName("user")
+	license := params.GetByName("license")
 
-	err := google.Update(db, user)
+	valid, err := user.CheckLicense(db, license)
+	if err != nil {
+		switch err.(type) {
+		case *database.NotFoundError:
+			c.Fail(404, err)
+		default:
+			c.Fail(500, err)
+		}
+		return
+	}
+
+	if !valid {
+		c.Fail(401, err)
+	}
+
+	err = google.Update(db, usr)
 	if err != nil {
 		c.Fail(500, err)
 	}
