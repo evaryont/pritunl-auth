@@ -8,7 +8,7 @@ import (
 type Account struct {
 	Id            string    `bson:"_id"`
 	Type          string    `bson:"type"`
-	Oauth2AccTokn string    `json:"oauth2_acct_tokn"`
-	Oauth2RefTokn string    `json:"oauth2_ref_tokn"`
-	Oauth2Exp     time.Time `json:"oauth2_exp"`
+	Oauth2AccTokn string    `bson:"oauth2_acc_tokn"`
+	Oauth2RefTokn string    `bson:"oauth2_ref_tokn"`
+	Oauth2Exp     time.Time `bson:"oauth2_exp"`
 }
