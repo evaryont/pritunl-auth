@@ -48,4 +48,5 @@ func Register(engine *gin.Engine) {
 	dbGroup.GET("/check", checkGet)
 	dbGroup.POST("/request/google", requestPost)
 	dbGroup.GET("/callback/google", callbackGoogleGet)
+	dbGroup.GET("/update/google", updateGoogleGet)
 }
