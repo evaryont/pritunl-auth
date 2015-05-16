@@ -18,9 +18,9 @@ func callbackGoogleGet(c *gin.Context) {
 
 	state := params.GetByName("state")
 	code := params.GetByName("code")
-	error := params.GetByName("error")
+	authErr := params.GetByName("error")
 
-	switch error {
+	switch authErr {
 	case "":
 		if state == "" || code == "" {
 			c.AbortWithStatus(400)
