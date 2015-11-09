@@ -20,20 +20,21 @@ func updateGoogleGet(c *gin.Context) {
 	if err != nil {
 		switch err.(type) {
 		case *database.NotFoundError:
-			c.Fail(404, err)
+			c.AbortWithError(404, err)
 		default:
-			c.Fail(500, err)
+			c.AbortWithError(500, err)
 		}
 		return
 	}
 
 	if !valid {
-		c.Fail(401, err)
+		c.AbortWithError(401, err)
 	}
 
 	err = google.Update(db, usr)
 	if err != nil {
-		c.Fail(500, err)
+		c.AbortWithError(500, err)
+		return
 	}
 
 	c.String(200, "")

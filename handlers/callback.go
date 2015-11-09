@@ -37,7 +37,7 @@ func callbackGoogleGet(c *gin.Context) {
 
 	acct, tokn, err := google.Authorize(db, state, code)
 	if err != nil {
-		c.Fail(500, err)
+		c.AbortWithError(500, err)
 		return
 	}
 
