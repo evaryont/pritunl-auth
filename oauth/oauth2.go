@@ -37,11 +37,11 @@ func (o *Oauth2) Config() {
 	}
 }
 
-func (o *Oauth2) Request(db *database.Database, remoteState string,
-	remoteSecret string, remoteCallback string) (url string, err error) {
+func (o *Oauth2) Request(db *database.Database, remoteState, remoteSecret,
+	remoteCallback string, version int) (url string, err error) {
 
 	coll := db.Tokens()
-	state := utils.RandStr(32)
+	state := utils.RandStr(64)
 
 	url = o.conf.AuthCodeURL(state, oauth2.AccessTypeOffline,
 		oauth2.ApprovalForce)
@@ -58,6 +58,7 @@ func (o *Oauth2) Request(db *database.Database, remoteState string,
 		RemoteState:    remoteState,
 		RemoteSecret:   remoteSecret,
 		Type:           o.Type,
+		Version:        version,
 	}
 	err = coll.Insert(tokn)
 	if err != nil {
@@ -68,7 +69,7 @@ func (o *Oauth2) Request(db *database.Database, remoteState string,
 	return
 }
 
-func (o *Oauth2) Authorize(db *database.Database, state string, code string) (
+func (o *Oauth2) Authorize(db *database.Database, state, code string) (
 	acct *account.Account, tokn *Token, err error) {
 
 	coll := db.Tokens()

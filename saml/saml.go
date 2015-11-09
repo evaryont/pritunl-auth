@@ -8,7 +8,9 @@ import (
 	"github.com/pritunl/pritunl-auth/database"
 	"github.com/pritunl/pritunl-auth/utils"
 	"html/template"
+	"labix.org/v2/mgo/bson"
 	"path/filepath"
+	"fmt"
 )
 
 var (
@@ -16,10 +18,10 @@ var (
 )
 
 type UserData struct {
-	Username string
-	Email    string
-	Org      string
-	HasDuo   bool
+	Username  string
+	Email     string
+	Org       string
+	Secondary string
 }
 
 type Token struct {
@@ -27,6 +29,7 @@ type Token struct {
 	RemoteCallback string `bson:"remote_callback"`
 	RemoteState    string `bson:"remote_state"`
 	RemoteSecret   string `bson:"remote_secret"`
+	Type           string `bson:"type"`
 	SsoUrl         string `bson:"sso_url"`
 	IssuerUrl      string `bson:"issuer_url"`
 	Cert           string `bson:"cert"`
@@ -46,7 +49,7 @@ func (s *Saml) Init() (err error) {
 		return
 	}
 
-	s.provider = &saml.ServiceProviderSettings{
+	s.provider = saml.ServiceProviderSettings{
 		PublicCertPath: filepath.Join(
 			constants.SamlCertDir, constants.SamlCert),
 		PrivateKeyPath: filepath.Join(
@@ -73,7 +76,7 @@ func (s *Saml) Request(db *database.Database, remoteState, remoteSecret,
 	remoteCallback string) (resp *bytes.Buffer, err error) {
 
 	coll := db.Tokens()
-	state := utils.RandStr(32)
+	state := utils.RandStr(64)
 
 	req := s.provider.GetAuthnRequest()
 	encodedReq, err := req.EncodedSignedString(s.provider.PrivateKeyPath)
@@ -131,10 +134,10 @@ func (s *Saml) Request(db *database.Database, remoteState, remoteSecret,
 	return
 }
 
-func (s *Saml) Authorize(db *database.Database, state, response string) (
-	data *UserData, tokn *Token, err error) {
+func (s *Saml) Authorize(state, respEncoded string) (
+	data *UserData, err error) {
 
-	resp, err := saml.ParseEncodedResponse(response)
+	resp, err := saml.ParseEncodedResponse(respEncoded)
 	if err != nil {
 		err = &SamlError{
 			errors.Wrap(err, "saml: Failed to parse response"),
@@ -151,17 +154,46 @@ func (s *Saml) Authorize(db *database.Database, state, response string) (
 	}
 
 	data = &UserData{
-		Username: resp.GetAttribute("username"),
-		Email:    resp.GetAttribute("email"),
-		Org:      resp.GetAttribute("org"),
+		Username:  resp.GetAttribute("username"),
+		Email:     resp.GetAttribute("email"),
+		Org:       resp.GetAttribute("org"),
+		Secondary: resp.GetAttribute("secondary"),
 	}
 
 	if data.Username == "" {
 		data.Username = resp.Assertion.Subject.NameID.Value
 	}
 
-	if resp.GetAttribute("has_duo") == "true" {
-		data.HasDuo = true
+	return
+}
+
+func Authorize(db *database.Database, state, respEncoded string) (
+	data *UserData, tokn *Token, err error) {
+
+	tokn = &Token{}
+	coll := db.Tokens()
+	err = coll.FindOne(&bson.M{
+		"_id":  state,
+		"type": "saml",
+	}, tokn)
+	if err != nil {
+		err = database.ParseError(err)
+		return
+	}
+
+	sml := &Saml{
+		SsoUrl:    tokn.SsoUrl,
+		IssuerUrl: tokn.IssuerUrl,
+		Cert:      tokn.Cert,
+	}
+	err = sml.Init()
+	if err != nil {
+		return
+	}
+
+	data, err = sml.Authorize(state, respEncoded)
+	if err != nil {
+		return
 	}
 
 	return

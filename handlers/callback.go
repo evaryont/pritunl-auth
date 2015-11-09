@@ -68,3 +68,32 @@ func callbackGoogleGet(c *gin.Context) {
 			url.QueryEscape(acct.Id), sig))
 	}
 }
+
+func callbackSamlPost(c *gin.Context) {
+	db := c.MustGet("db").(*database.Database)
+
+	state := c.PostForm("RelayState")
+	respEncoded := c.PostForm("SAMLResponse")
+
+	data, tokn, err := saml.Authorize(db, state, respEncoded)
+	if err != nil {
+		c.AbortWithError(500, err)
+		return
+	}
+
+	query := fmt.Sprintf("state=%s&username=%s&email=%s&org=%s&secondary=%s",
+		tokn.RemoteState,
+		url.QueryEscape(data.Username),
+		url.QueryEscape(data.Email),
+		url.QueryEscape(data.Org),
+		url.QueryEscape(data.Secondary),
+	)
+
+	hashFunc := hmac.New(sha512.New, []byte(tokn.RemoteSecret))
+	hashFunc.Write([]byte(query))
+	rawSignature := hashFunc.Sum(nil)
+	sig := base64.URLEncoding.EncodeToString(rawSignature)
+
+	c.Redirect(301, fmt.Sprintf("%s?%s&sig=%s",
+		tokn.RemoteCallback, query, sig))
+}

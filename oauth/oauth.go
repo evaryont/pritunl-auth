@@ -8,4 +8,5 @@ type Token struct {
 	RemoteSecret   string `bson:"remote_secret"`
 	OauthSecret    string `bson:"oauth_secret"`
 	Type           string `bson:"type"`
+	Version        int    `bson:"version"`
 }
