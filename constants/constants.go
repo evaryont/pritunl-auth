@@ -13,6 +13,9 @@ const (
 	RetryDelay       = 3 * time.Second
 	ErrLogDelay      = 3 * time.Minute
 	KeepAliveTimeout = 2 * time.Minute
+	SamlReq          = "saml.req"
+	SamlKey          = "saml.key"
+	SamlCert         = "saml.crt"
 )
 
 var (

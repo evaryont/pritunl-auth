@@ -19,8 +19,8 @@ func InitSignCert() (err error) {
 		"-newkey", "rsa:4096",
 		"-nodes",
 		"-subj", "/C=US/ST=New York/O=Pritunl/CN=pritunl.com",
-		"-keyout", "saml.key",
-		"-out", "saml.req",
+		"-keyout", constants.SamlKey,
+		"-out", constants.SamlReq,
 	)
 	if err != nil {
 		return
@@ -28,11 +28,11 @@ func InitSignCert() (err error) {
 
 	err = utils.Exec(constants.SamlCertDir, "openssl", "x509",
 		"-req",
-		"-in", "saml.req",
-		"-signkey", "saml.key",
+		"-in", constants.SamlReq,
+		"-signkey", constants.SamlKey,
 		"-sha256",
 		"-days", "3650",
-		"-out", "saml.crt",
+		"-out", constants.SamlCert,
 	)
 	if err != nil {
 		return
