@@ -14,7 +14,7 @@ var (
 	conf *oauth.Oauth2
 )
 
-func Init(clientId string, clientSecret string, callbackUrl string) {
+func Init(clientId, clientSecret, callbackUrl string) {
 	conf = &oauth.Oauth2{
 		Type:         "gmail",
 		ClientId:     clientId,
@@ -66,10 +66,11 @@ func (g *GoogleClient) Update(db *database.Database) (err error) {
 	return
 }
 
-func Request(db *database.Database, remoteState string,
-	remoteSecret string, remoteCallback string) (url string, err error) {
+func Request(db *database.Database, remoteState, remoteSecret,
+	remoteCallback string, version int) (url string, err error) {
 
-	url, err = conf.Request(db, remoteState, remoteSecret, remoteCallback)
+	url, err = conf.Request(db, remoteState, remoteSecret,
+		remoteCallback, version)
 	if err != nil {
 		return
 	}
