@@ -17,7 +17,7 @@ const (
 
 var (
 	Version string
-	Key []byte
+	Key     []byte
 	HashKey []byte
 )
 
