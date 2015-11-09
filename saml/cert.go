@@ -40,3 +40,8 @@ func InitSignCert() (err error) {
 
 	return
 }
+
+func GetCertPath() string {
+	return filepath.Join(constants.SamlCertDir,
+		fmt.Sprintf("%s.crt", utils.Uuid()))
+}
