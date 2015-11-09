@@ -46,7 +46,7 @@ func Register(engine *gin.Engine) {
 	dbGroup.Use(Database)
 
 	dbGroup.GET("/check", checkGet)
-	dbGroup.POST("/request/google", requestPost)
+	dbGroup.POST("/request/google", requestGooglePost)
 	dbGroup.GET("/callback/google", callbackGoogleGet)
 	dbGroup.GET("/update/google", updateGoogleGet)
 }

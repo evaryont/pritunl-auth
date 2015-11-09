@@ -14,7 +14,7 @@ type requestData struct {
 	Secret   string `state:"secret"`
 }
 
-func requestPost(c *gin.Context) {
+func requestGooglePost(c *gin.Context) {
 	db := c.MustGet("db").(*database.Database)
 	data := &requestData{}
 
