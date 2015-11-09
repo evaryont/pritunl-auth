@@ -16,9 +16,10 @@ const (
 )
 
 var (
-	Version string
-	Key     []byte
-	HashKey []byte
+	SamlCertDir string
+	Version     string
+	Key         []byte
+	HashKey     []byte
 )
 
 func init() {
