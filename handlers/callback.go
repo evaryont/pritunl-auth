@@ -41,11 +41,27 @@ func callbackGoogleGet(c *gin.Context) {
 		return
 	}
 
-	hashFunc := hmac.New(sha256.New, []byte(tokn.RemoteSecret))
-	hashFunc.Write([]byte(tokn.RemoteState + acct.Id))
-	rawSignature := hashFunc.Sum(nil)
-	sig := base64.URLEncoding.EncodeToString(rawSignature)
+	if tokn.Version == 1 {
+		query := fmt.Sprintf("state=%s&username=%s", tokn.RemoteState,
+			url.QueryEscape(acct.Id))
 
-	c.Redirect(301, fmt.Sprintf("%s?state=%s&user=%s&sig=%s",
-		tokn.RemoteCallback, tokn.RemoteState, acct.Id, sig))
+		hashFunc := hmac.New(sha512.New, []byte(tokn.RemoteSecret))
+		hashFunc.Write([]byte(query))
+		rawSignature := hashFunc.Sum(nil)
+		sig := base64.URLEncoding.EncodeToString(rawSignature)
+
+		url := fmt.Sprintf("%s?%s&sig=%s",
+			tokn.RemoteCallback, query, url.QueryEscape(sig))
+
+		c.Redirect(301, url)
+	} else {
+		hashFunc := hmac.New(sha256.New, []byte(tokn.RemoteSecret))
+		hashFunc.Write([]byte(tokn.RemoteState + acct.Id))
+		rawSignature := hashFunc.Sum(nil)
+		sig := base64.URLEncoding.EncodeToString(rawSignature)
+
+		c.Redirect(301, fmt.Sprintf("%s?state=%s&user=%s&sig=%s",
+			tokn.RemoteCallback, tokn.RemoteState,
+			url.QueryEscape(acct.Id), sig))
+	}
 }
