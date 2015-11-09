@@ -3,9 +3,9 @@ package handlers
 import (
 	"fmt"
 	"github.com/Sirupsen/logrus"
-	"github.com/pritunl/pritunl-auth/database"
 	"github.com/dropbox/godropbox/errors"
 	"github.com/gin-gonic/gin"
+	"github.com/pritunl/pritunl-auth/database"
 	"net/http"
 )
 
