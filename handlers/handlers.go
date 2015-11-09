@@ -11,7 +11,7 @@ import (
 
 // Limit size of request body
 func Limiter(c *gin.Context) {
-	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, 4096)
+	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, 1000000)
 }
 
 // Get database from session
