@@ -2,8 +2,8 @@ package utils
 
 import (
 	"crypto/rand"
-	"github.com/Sirupsen/logrus"
-	"github.com/pritunl/pritunl-auth/errortypes"
+	"encoding/hex"
+	"github.com/cortunl/cortunl/constants"
 	"github.com/dropbox/godropbox/errors"
 	"math/big"
 	mathrand "math/rand"
@@ -11,10 +11,10 @@ import (
 )
 
 func RandBytes(size int) (bytes []byte, err error) {
-	bytes = make([]byte, 32)
+	bytes = make([]byte, size)
 	_, err = rand.Read(bytes)
 	if err != nil {
-		err = &errortypes.UnknownError{
+		err = &constants.ReadError{
 			errors.Wrap(err, "utils: Random read error"),
 		}
 		return
@@ -23,18 +23,24 @@ func RandBytes(size int) (bytes []byte, err error) {
 	return
 }
 
+func Uuid() (id string) {
+	data, err := RandBytes(16)
+	if err != nil {
+		panic(err)
+	}
+
+	id = hex.EncodeToString(data[:])
+	return
+}
+
 func seedRand() {
 	n, err := rand.Int(rand.Reader, big.NewInt(9223372036854775806))
 	if err != nil {
-		logrus.WithFields(logrus.Fields{
-			"error": err,
-		}).Error("utils: Error seeding random")
 		mathrand.Seed(time.Now().UTC().UnixNano())
 		return
 	}
 
 	mathrand.Seed(n.Int64())
-
 	return
 }
 
