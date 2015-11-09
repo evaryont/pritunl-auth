@@ -29,6 +29,7 @@ func updateGoogleGet(c *gin.Context) {
 
 	if !valid {
 		c.AbortWithError(401, err)
+		return
 	}
 
 	err = google.Update(db, usr)
