@@ -5,6 +5,7 @@ import (
 	"github.com/pritunl/pritunl-auth/constants"
 	"github.com/pritunl/pritunl-auth/google"
 	"github.com/pritunl/pritunl-auth/handlers"
+	"github.com/pritunl/pritunl-auth/saml"
 	"github.com/pritunl/pritunl-auth/utils"
 	"net/http"
 	"os"
@@ -17,6 +18,8 @@ func App() {
 	opts := getOpts()
 
 	google.Init(opts.GoogleId, opts.GoogleSecret, opts.GoogleCallback)
+
+	saml.SamlCallbackUrl = opts.SamlCallback
 
 	constants.Key = utils.GetKey(os.Getenv("LICENSE_KEY"))
 	constants.HashKey = utils.GetKey(os.Getenv("LICENSE_HASH_KEY"))

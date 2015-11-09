@@ -13,6 +13,7 @@ type Options struct {
 	GoogleId       string
 	GoogleSecret   string
 	GoogleCallback string
+	SamlCallback   string
 }
 
 func getOpts() (opts *Options) {
@@ -37,6 +38,7 @@ func getOpts() (opts *Options) {
 	opts.GoogleId = os.Getenv("GOOGLE_ID")
 	opts.GoogleSecret = os.Getenv("GOOGLE_SECRET")
 	opts.GoogleCallback = os.Getenv("GOOGLE_CALLBACK")
+	opts.SamlCallback = os.Getenv("SAML_CALLBACK")
 
 	return
 }
