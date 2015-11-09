@@ -18,7 +18,9 @@ func requestPost(c *gin.Context) {
 	db := c.MustGet("db").(*database.Database)
 	data := &requestData{}
 
-	if !c.Bind(&data) {
+	err := c.Bind(&data)
+	if err != nil {
+		c.AbortWithError(400, err)
 		return
 	}
 
