@@ -3,12 +3,15 @@ package handlers
 import (
 	"crypto/hmac"
 	"crypto/sha256"
+	"crypto/sha512"
 	"encoding/base64"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pritunl/pritunl-auth/database"
 	"github.com/pritunl/pritunl-auth/google"
+	"github.com/pritunl/pritunl-auth/saml"
 	"github.com/pritunl/pritunl-auth/utils"
+	"net/url"
 )
 
 func callbackGoogleGet(c *gin.Context) {
