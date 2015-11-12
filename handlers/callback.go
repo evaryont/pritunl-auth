@@ -79,6 +79,11 @@ func callbackSamlPost(c *gin.Context) {
 	if strings.HasPrefix(state, "https://") ||
 		strings.HasPrefix(state, "http://") {
 
+		if !strings.HasSuffix(state, "/") {
+			state += "/"
+		}
+		state += "sso/request"
+
 		c.Redirect(301, state)
 		return
 	}
