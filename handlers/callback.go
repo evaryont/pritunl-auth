@@ -12,6 +12,7 @@ import (
 	"github.com/pritunl/pritunl-auth/saml"
 	"github.com/pritunl/pritunl-auth/utils"
 	"net/url"
+	"strings"
 )
 
 func callbackGoogleGet(c *gin.Context) {
@@ -74,6 +75,12 @@ func callbackSamlPost(c *gin.Context) {
 
 	state := c.PostForm("RelayState")
 	respEncoded := c.PostForm("SAMLResponse")
+
+	if strings.HasPrefix(state, "https://") ||
+		strings.HasPrefix(state, "http://") {
+
+		c.Redirect(300, state)
+	}
 
 	data, tokn, err := saml.Authorize(db, state, respEncoded)
 	if err != nil {
