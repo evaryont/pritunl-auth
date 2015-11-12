@@ -79,7 +79,8 @@ func callbackSamlPost(c *gin.Context) {
 	if strings.HasPrefix(state, "https://") ||
 		strings.HasPrefix(state, "http://") {
 
-		c.Redirect(300, state)
+		c.Redirect(301, state)
+		return
 	}
 
 	data, tokn, err := saml.Authorize(db, state, respEncoded)
