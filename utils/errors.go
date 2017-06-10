@@ -7,7 +7,3 @@ import (
 type ParseError struct {
 	errors.DropboxError
 }
-
-type InvalidLicenseError struct {
-	errors.DropboxError
-}

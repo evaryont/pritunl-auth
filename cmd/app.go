@@ -21,9 +21,6 @@ func App() {
 
 	saml.SamlCallbackUrl = opts.SamlCallback
 
-	constants.Key = utils.GetKey(os.Getenv("LICENSE_KEY"))
-	constants.HashKey = utils.GetKey(os.Getenv("LICENSE_HASH_KEY"))
-
 	var debug bool
 	debugStr := os.Getenv("DEBUG")
 	if debugStr == "" {

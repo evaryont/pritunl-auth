@@ -5,7 +5,6 @@ import (
 	"github.com/evaryont/pritunl-auth/database"
 	"github.com/evaryont/pritunl-auth/google"
 	"github.com/evaryont/pritunl-auth/saml"
-	"github.com/evaryont/pritunl-auth/user"
 )
 
 type googleRequestData struct {
@@ -22,22 +21,6 @@ func _requestGooglePost(c *gin.Context, version int) {
 	err := c.Bind(&data)
 	if err != nil {
 		c.AbortWithError(400, err)
-		return
-	}
-
-	valid, err := user.CheckLicense(db, data.License)
-	if err != nil {
-		switch err.(type) {
-		case *database.NotFoundError:
-			c.AbortWithError(404, err)
-		default:
-			c.AbortWithError(500, err)
-		}
-		return
-	}
-
-	if !valid {
-		c.AbortWithError(401, err)
 		return
 	}
 
@@ -80,22 +63,6 @@ func requestSamlPost(c *gin.Context) {
 	err := c.Bind(&data)
 	if err != nil {
 		c.AbortWithError(400, err)
-		return
-	}
-
-	valid, err := user.CheckLicense(db, data.License)
-	if err != nil {
-		switch err.(type) {
-		case *database.NotFoundError:
-			c.AbortWithError(404, err)
-		default:
-			c.AbortWithError(500, err)
-		}
-		return
-	}
-
-	if !valid {
-		c.AbortWithError(401, err)
 		return
 	}
 
