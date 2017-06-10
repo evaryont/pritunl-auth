@@ -21,17 +21,9 @@ func App() {
 
 	saml.SamlCallbackUrl = opts.SamlCallback
 
-	var debug bool
-	debugStr := os.Getenv("DEBUG")
-	if debugStr == "" {
-		debug = true
-	} else {
-		debug, _ = strconv.ParseBool(debugStr)
-	}
-
 	router := gin.New()
 
-	if debug {
+	if opts.Debug {
 		router.Use(gin.Logger())
 		gin.SetMode(gin.DebugMode)
 	} else {

@@ -48,7 +48,7 @@ func (s *Saml) Init() (err error) {
 		return
 	}
 
-	s.Provider = saml.ServiceProviderSettings{
+	s.provider = saml.ServiceProviderSettings{
 		PublicCertPath: filepath.Join(
 			constants.SamlCertDir, constants.SamlCert),
 		PrivateKeyPath: filepath.Join(
