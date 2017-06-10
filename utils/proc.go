@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/pritunl/pritunl-auth/constants"
+	"github.com/evaryont/pritunl-auth/constants"
 	"github.com/dropbox/godropbox/errors"
 	"os"
 	"os/exec"

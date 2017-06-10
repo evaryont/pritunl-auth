@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pritunl/pritunl-auth/constants"
-	"github.com/pritunl/pritunl-auth/google"
-	"github.com/pritunl/pritunl-auth/handlers"
-	"github.com/pritunl/pritunl-auth/saml"
-	"github.com/pritunl/pritunl-auth/utils"
+	"github.com/evaryont/pritunl-auth/constants"
+	"github.com/evaryont/pritunl-auth/google"
+	"github.com/evaryont/pritunl-auth/handlers"
+	"github.com/evaryont/pritunl-auth/saml"
+	"github.com/evaryont/pritunl-auth/utils"
 	"net/http"
 	"os"
 	"strconv"

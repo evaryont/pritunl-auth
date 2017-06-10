@@ -2,8 +2,8 @@ package saml
 
 import (
 	"fmt"
-	"github.com/pritunl/pritunl-auth/constants"
-	"github.com/pritunl/pritunl-auth/utils"
+	"github.com/evaryont/pritunl-auth/constants"
+	"github.com/evaryont/pritunl-auth/utils"
 	"os"
 	"path/filepath"
 )

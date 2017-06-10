@@ -5,7 +5,7 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/dropbox/godropbox/errors"
 	"github.com/gin-gonic/gin"
-	"github.com/pritunl/pritunl-auth/database"
+	"github.com/evaryont/pritunl-auth/database"
 	"net/http"
 )
 

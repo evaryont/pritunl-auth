@@ -9,7 +9,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"github.com/dropbox/godropbox/errors"
-	"github.com/pritunl/pritunl-auth/constants"
+	"github.com/evaryont/pritunl-auth/constants"
 	"strings"
 )
 

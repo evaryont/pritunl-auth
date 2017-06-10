@@ -1,8 +1,8 @@
 package user
 
 import (
-	"github.com/pritunl/pritunl-auth/database"
-	"github.com/pritunl/pritunl-auth/utils"
+	"github.com/evaryont/pritunl-auth/database"
+	"github.com/evaryont/pritunl-auth/utils"
 )
 
 type User struct {

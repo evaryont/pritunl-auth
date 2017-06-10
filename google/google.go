@@ -3,10 +3,10 @@ package google
 
 import (
 	"github.com/dropbox/godropbox/errors"
-	"github.com/pritunl/pritunl-auth/account"
-	"github.com/pritunl/pritunl-auth/database"
-	"github.com/pritunl/pritunl-auth/errortypes"
-	"github.com/pritunl/pritunl-auth/oauth"
+	"github.com/evaryont/pritunl-auth/account"
+	"github.com/evaryont/pritunl-auth/database"
+	"github.com/evaryont/pritunl-auth/errortypes"
+	"github.com/evaryont/pritunl-auth/oauth"
 	"labix.org/v2/mgo/bson"
 )
 

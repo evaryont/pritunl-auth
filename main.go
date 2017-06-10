@@ -2,9 +2,9 @@ package main
 
 import (
 	"flag"
-	"github.com/pritunl/pritunl-auth/cmd"
-	"github.com/pritunl/pritunl-auth/requires"
-	"github.com/pritunl/pritunl-auth/saml"
+	"github.com/evaryont/pritunl-auth/cmd"
+	"github.com/evaryont/pritunl-auth/requires"
+	"github.com/evaryont/pritunl-auth/saml"
 )
 
 func main() {

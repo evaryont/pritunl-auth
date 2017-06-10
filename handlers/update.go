@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pritunl/pritunl-auth/database"
-	"github.com/pritunl/pritunl-auth/google"
-	"github.com/pritunl/pritunl-auth/user"
-	"github.com/pritunl/pritunl-auth/utils"
+	"github.com/evaryont/pritunl-auth/database"
+	"github.com/evaryont/pritunl-auth/google"
+	"github.com/evaryont/pritunl-auth/user"
+	"github.com/evaryont/pritunl-auth/utils"
 )
 
 func updateGoogleGet(c *gin.Context) {

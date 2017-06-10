@@ -2,4 +2,4 @@
 
 Copyright (c) 2015 Pritunl
 
-[![godoc](https://godoc.org/github.com/pritunl/pritunl-auth?status.png)](https://godoc.org/github.com/pritunl/pritunl-auth)
+[![godoc](https://godoc.org/github.com/evaryont/pritunl-auth?status.png)](https://godoc.org/github.com/evaryont/pritunl-auth)

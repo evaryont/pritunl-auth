@@ -3,8 +3,8 @@ package database
 import (
 	"github.com/Sirupsen/logrus"
 	"github.com/dropbox/godropbox/errors"
-	"github.com/pritunl/pritunl-auth/constants"
-	"github.com/pritunl/pritunl-auth/requires"
+	"github.com/evaryont/pritunl-auth/constants"
+	"github.com/evaryont/pritunl-auth/requires"
 	"labix.org/v2/mgo"
 	"os"
 	"strings"

@@ -33,7 +33,7 @@ func init() {
 		return
 	}
 
-	pkgPath := path.Join(goPath, "src/github.com/pritunl/pritunl-auth")
+	pkgPath := path.Join(goPath, "src/github.com/evaryont/pritunl-auth")
 
 	output, err := exec.Command("git", "-C", pkgPath,
 		"rev-parse", "HEAD").Output()
