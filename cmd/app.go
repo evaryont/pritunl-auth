@@ -2,13 +2,10 @@ package cmd
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/evaryont/pritunl-auth/constants"
 	"github.com/evaryont/pritunl-auth/google"
 	"github.com/evaryont/pritunl-auth/handlers"
 	"github.com/evaryont/pritunl-auth/saml"
-	"github.com/evaryont/pritunl-auth/utils"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 )

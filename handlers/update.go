@@ -13,7 +13,6 @@ func updateGoogleGet(c *gin.Context) {
 	params := utils.ParseParams(c.Request)
 
 	usr := params.GetByName("user")
-	license := params.GetByName("license")
 
 	err := google.Update(db, usr)
 	if err != nil {
