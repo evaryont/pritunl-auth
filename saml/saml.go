@@ -10,6 +10,7 @@ import (
 	"html/template"
 	"labix.org/v2/mgo/bson"
 	"path/filepath"
+	"fmt"
 )
 
 var (
@@ -42,6 +43,7 @@ type Saml struct {
 }
 
 func (s *Saml) Init() (err error) {
+	fmt.Printf("saml/saml.Init called with %v\n", s)
 	certPath := GetCertPath()
 	err = utils.Write(certPath, s.Cert)
 	if err != nil {
@@ -67,6 +69,26 @@ func (s *Saml) Init() (err error) {
 		}
 		return
 	}
+
+	fmt.Printf("Getting entity descriptors\n")
+	entityFile := filepath.Join(constants.SamlCertDir, fmt.Sprintf("%s.xml", utils.Uuid()))
+
+	metadata, err := s.provider.GetEntityDescriptor()
+	if err != nil {
+		err = &constants.ReadError{
+			errors.Wrap(err, "saml: Failed to retrieve entity descriptor"),
+		}
+		return
+	}
+
+	err = utils.Write(entityFile, metadata)
+	if err != nil {
+		err = &constants.WriteError{
+			errors.Wrap(err, "saml: Failed to write xml metadata"),
+		}
+		return
+	}
+	fmt.Printf("Woo, check %v for it\n", entityFile)
 
 	return
 }
