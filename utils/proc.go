@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"fmt"
+	"github.com/Sirupsen/logrus"
 )
 
 func Exec(dir, name string, args ...string) (err error) {
@@ -13,7 +14,10 @@ func Exec(dir, name string, args ...string) (err error) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	fmt.Printf("Exec, running: %v %v\n", name, args)
+	logrus.WithFields(logrus.Fields{
+		"name": name,
+		"args": args,
+	}).Info("utils: Exec running subprocess")
 
 	if dir != "" {
 		cmd.Dir = dir

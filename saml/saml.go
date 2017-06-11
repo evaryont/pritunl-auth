@@ -11,6 +11,7 @@ import (
 	"labix.org/v2/mgo/bson"
 	"path/filepath"
 	"fmt"
+	"github.com/Sirupsen/logrus"
 )
 
 var (
@@ -43,7 +44,12 @@ type Saml struct {
 }
 
 func (s *Saml) Init() (err error) {
-	fmt.Printf("saml/saml.Init called with %v\n", s)
+  logrus.WithFields(logrus.Fields{
+		"issuer_url": s.IssuerUrl,
+		"sso_url": s.SsoUrl,
+		"provider": s.provider,
+  }).Info("saml init called")
+
 	certPath := GetCertPath()
 	err = utils.Write(certPath, s.Cert)
 	if err != nil {
@@ -88,7 +94,9 @@ func (s *Saml) Init() (err error) {
 		}
 		return
 	}
-	fmt.Printf("Woo, check %v for it\n", entityFile)
+  logrus.WithFields(logrus.Fields{
+		"path": entityFile,
+  }).Info("entity metadata written")
 
 	return
 }

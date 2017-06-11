@@ -5,6 +5,7 @@ import (
 	"github.com/evaryont/pritunl-auth/database"
 	"github.com/evaryont/pritunl-auth/google"
 	"github.com/evaryont/pritunl-auth/saml"
+	"github.com/Sirupsen/logrus"
 )
 
 type googleRequestData struct {
@@ -66,6 +67,15 @@ func requestSamlPost(c *gin.Context) {
 		return
 	}
 
+  logrus.WithFields(logrus.Fields{
+  	"callback": data.Callback,
+		"issuer_url": data.IssuerUrl,
+  	"license": data.License,
+		"secret": data.Secret,
+		"sso_url": data.SsoUrl,
+		"state": data.State,
+  }).Info("request saml called")
+
 	sml := &saml.Saml{
 		SsoUrl: data.SsoUrl,
 		IssuerUrl: data.IssuerUrl,
@@ -77,7 +87,6 @@ func requestSamlPost(c *gin.Context) {
 		c.AbortWithError(500, err)
 		return
 	}
-
 
 	resp, err := sml.Request(db, data.State, data.Secret, data.Callback)
 	if err != nil {

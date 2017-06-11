@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path"
 	"strings"
+	"fmt"
 	"time"
 )
 
@@ -32,6 +33,13 @@ func init() {
 	if goPath == "" {
 		return
 	}
+
+	samlDir := os.Getenv("SAML_DIR")
+	if samlDir == "" {
+		fmt.Printf("Missing environment variable SAML_DIR. Set it first!\n")
+		os.Exit(1)
+	}
+	SamlCertDir = samlDir
 
 	pkgPath := path.Join(goPath, "src/github.com/evaryont/pritunl-auth")
 
