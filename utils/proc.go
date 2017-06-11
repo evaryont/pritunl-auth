@@ -5,6 +5,7 @@ import (
 	"github.com/dropbox/godropbox/errors"
 	"os"
 	"os/exec"
+	"fmt"
 )
 
 func Exec(dir, name string, args ...string) (err error) {
@@ -12,8 +13,11 @@ func Exec(dir, name string, args ...string) (err error) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
+	fmt.Printf("Exec, running: %v %v\n", name, args)
+
 	if dir != "" {
 		cmd.Dir = dir
+		fmt.Printf("Inside directory %v\n", dir)
 	}
 
 	err = cmd.Run()
