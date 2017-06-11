@@ -11,3 +11,4 @@ Thumbs.db
 *.egg-info
 .sass-cache
 pritunl.iml
+pritunl-auth
